@@ -26,7 +26,8 @@ def main():
             user_email = input('Digite o email do usuário: ')
             user_age = int(input('Digite a idade do usuário: '))
             
-            user = {'name': user_name, 
+            user = {'id': len(user_list)+1,
+                    'name': user_name, 
                     'email': user_email,
                     'age': user_age}
 
