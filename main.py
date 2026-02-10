@@ -32,7 +32,15 @@ def main():
             
             print('Usuário cadastrado com sucesso.')
 
-        elif answer in range(2,5):
+        elif answer == 2:
+            if len(user_list) == 0:
+                print('Nenhum usuário encontrado.')
+                continue
+            
+            for user in user_list:
+                print(f"\nId: {user['id']}\nNome: {user['name']}\nEmail: {user['email']}\nIdade: {user['age']}\n\n")
+
+        elif answer in range(3,5):
             print('\nOpção não implementada. Tente novamente em breve.')
         else:
             print('Opção inválida.')
