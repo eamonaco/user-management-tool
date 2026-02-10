@@ -1,3 +1,5 @@
+import time
+
 def main():
     quit_program = False
     user_list = []
@@ -40,6 +42,7 @@ def main():
             for user in user_list:
                 print(f"\nId: {user['id']}\nNome: {user['name']}\nEmail: {user['email']}\nIdade: {user['age']}\n\n")
 
+            time.sleep(10)
         elif answer in range(3,5):
             print('\nOpção não implementada. Tente novamente em breve.')
         else:
