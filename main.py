@@ -1,5 +1,11 @@
 import time
 
+translations = {"name": "Nome",
+                "email": "Email",
+                "age": "Idade"
+}
+
+
 def show_menu():
     print(
         """
@@ -30,7 +36,7 @@ def create_user(user_list):
             
     print('Usuário cadastrado com sucesso.')
 
-def list_users(user_list):
+def read_users(user_list):
     if len(user_list) == 0:
         print('Nenhum usuário encontrado.')
         return
@@ -38,7 +44,28 @@ def list_users(user_list):
     for user in user_list:
         print(f"\nId: {user['id']}\nNome: {user['name']}\nEmail: {user['email']}\nIdade: {user['age']}\n\n")
 
-     
+def update_user(user_list):
+    if len(user_list) == 0:
+        print('Nenhum usuário encontrado.')
+        return
+    
+    read_users(user_list)
+    user_id = int(input("\n\nSelecione o usuário pelo id: "))
+    user = user_list[user_id-1]
+    
+    for atribute in user:
+        if atribute != "id":
+            print(f'\n\n{translations[atribute]} atual: {user[atribute]}')
+            
+            if atribute == "age":
+                value = int(input("Digite um novo valor ou pressione ENTER para manter: ")) 
+            
+            value = input("Digite um novo valor ou pressione ENTER para manter: ")
+            
+            if value != "":
+                user[atribute] = value
+    
+
 def main():
     quit_program = False
     user_list = []
@@ -54,10 +81,13 @@ def main():
            create_user(user_list)
 
         elif answer == 2:
-            list_users(user_list)
+            read_users(user_list)
             time.sleep(10)
         
-        elif answer in range(3,5):
+        elif answer == 3:
+            update_user(user_list)
+
+        elif answer in range(4,5):
             print('\nOpção não implementada. Tente novamente em breve.')
         else:
             print('Opção inválida.')
