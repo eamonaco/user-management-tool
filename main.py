@@ -53,17 +53,20 @@ def update_user(user_list):
     user_id = int(input("\n\nSelecione o usuário pelo id: "))
     user = user_list[user_id-1]
     
-    for atribute in user:
-        if atribute != "id":
-            print(f'\n\n{translations[atribute]} atual: {user[atribute]}')
-            
-            if atribute == "age":
-                value = int(input("Digite um novo valor ou pressione ENTER para manter: ")) 
+    for attribute in user:
+        if attribute == "id":
+            continue
+        
+        else:
+            print(f'\n\n{translations[attribute]} atual: {user[attribute]}')
             
             value = input("Digite um novo valor ou pressione ENTER para manter: ")
             
+            if attribute == "age" and len(value) != 0:
+                value = int(value)
+            
             if value != "":
-                user[atribute] = value
+                user[attribute] = value
         
     
 def delete_user(user_list):
