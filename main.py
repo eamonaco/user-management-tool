@@ -5,7 +5,6 @@ translations = {"name": "Nome",
                 "age": "Idade"
 }
 
-
 def show_menu():
     print(
         """
@@ -22,12 +21,12 @@ def show_menu():
 def read_option():
     return int(input('\nOpção: '))
 
-def create_user(user_list):
+def create_user(user_list, next_user_id):
     user_name = input('Digite o nome do usuário: ')
     user_email = input('Digite o email do usuário: ')
     user_age = int(input('Digite a idade do usuário: '))
             
-    user = {'id': len(user_list)+1,
+    user = {'id': next_user_id,
             'name': user_name, 
             'email': user_email,
             'age': user_age}
@@ -51,14 +50,26 @@ def update_user(user_list):
     
     read_users(user_list)
     user_id = int(input("\n\nSelecione o usuário pelo id: "))
-    user = user_list[user_id-1]
     
-    for attribute in user:
+    user_to_update = None
+
+    for user in user_list:
+
+        if user_id == user['id']:
+            user_to_update = user
+            break
+        
+    if user_to_update == None:
+        print("Usuário não encontrado.")
+        return
+
+
+    for attribute in user_to_update:
         if attribute == "id":
             continue
         
         else:
-            print(f'\n\n{translations[attribute]} atual: {user[attribute]}')
+            print(f'\n\n{translations[attribute]} atual: {user_to_update[attribute]}')
             
             value = input("Digite um novo valor ou pressione ENTER para manter: ")
             
@@ -66,7 +77,7 @@ def update_user(user_list):
                 value = int(value)
             
             if value != "":
-                user[attribute] = value
+                user_to_update[attribute] = value
         
     
 def delete_user(user_list):
@@ -77,20 +88,26 @@ def delete_user(user_list):
     read_users(user_list)
     id_remover = int(input("\n\nSelecione o usuário pelo id: "))
     
-    del user_list[id_remover-1]
+    for user in user_list:
+        if user['id'] == id_remover:
+            del user_list[user_list.index(user)]
+            print(f'Usuário com id {id_remover} removido.')
+            return
 
-    print(f'Usuário com id {id_remover} removido.')
+   
 
 def main():
     quit_program = False
     user_list = []
+    next_user_id = 1
     while not quit_program:
         
         show_menu()
         answer = read_option()
     
         if answer == 1:
-           create_user(user_list)
+           create_user(user_list, next_user_id)
+           next_user_id+=1
 
         elif answer == 2:
             read_users(user_list)
