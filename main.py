@@ -64,7 +64,19 @@ def update_user(user_list):
             
             if value != "":
                 user[atribute] = value
+        
     
+def delete_user(user_list):
+    if len(user_list) == 0:
+        print('Nenhum usuário encontrado.')
+        return
+
+    read_users(user_list)
+    id_remover = int(input("\n\nSelecione o usuário pelo id: "))
+    
+    del user_list[id_remover-1]
+
+    print(f'Usuário com id {id_remover} removido.')
 
 def main():
     quit_program = False
@@ -82,10 +94,15 @@ def main():
 
         elif answer == 2:
             read_users(user_list)
-            time.sleep(10)
+            time.sleep(5)
         
         elif answer == 3:
             update_user(user_list)
+            time.sleep(5)
+
+        elif answer == 4:
+            delete_user(user_list)
+
 
         elif answer in range(4,5):
             print('\nOpção não implementada. Tente novamente em breve.')
