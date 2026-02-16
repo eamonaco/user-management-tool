@@ -89,10 +89,7 @@ def main():
         show_menu()
         answer = read_option()
     
-        if answer == 5:
-            quit_program = True
-        
-        elif answer == 1:
+        if answer == 1:
            create_user(user_list)
 
         elif answer == 2:
@@ -106,9 +103,9 @@ def main():
         elif answer == 4:
             delete_user(user_list)
 
-
-        elif answer in range(4,5):
-            print('\nOpção não implementada. Tente novamente em breve.')
+        elif answer == 5:
+            quit_program = True
+        
         else:
             print('Opção inválida.')
 
