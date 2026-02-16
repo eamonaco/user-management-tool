@@ -94,6 +94,7 @@ def delete_user(user_list):
 
     if user == None:
         print("Usuário não encontrado.")
+        return
 
     user_list.remove(user)
     print(f"Usuário com id {user["id"]} deletado com sucesso.")
