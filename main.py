@@ -99,36 +99,39 @@ def delete_user(user_list):
     user_list.remove(user)
     print(f"Usuário com id {user["id"]} deletado com sucesso.")
 
+
 def main():
-    quit_program = False
     user_list = []
     next_user_id = 1
+    quit_program = False
+
+    actions = {
+        1: "create",
+        2: read_users,
+        3: update_user,
+        4: delete_user
+    }
+
     while not quit_program:
-        
         show_menu()
         answer = read_option()
-    
-        if answer == 1:
-           create_user(user_list, next_user_id)
-           next_user_id+=1
 
-        elif answer == 2:
-            read_users(user_list)
-            time.sleep(5)
-        
-        elif answer == 3:
-            update_user(user_list)
-            time.sleep(5)
-
-        elif answer == 4:
-            delete_user(user_list)
-
-        elif answer == 5:
+        if answer == 5:
             quit_program = True
-        
-        else:
-            print('Opção inválida.')
+            continue
 
-    print('\nPrograma finalizado.')
+        if answer not in actions:
+            print("Opção inválida.")
+            continue
+
+        action = actions[answer]
+
+        if action == "create":
+            create_user(user_list, next_user_id)
+            next_user_id += 1
+        else:
+            action(user_list)
+
+    print("\nPrograma finalizado.")
 
 main()  
