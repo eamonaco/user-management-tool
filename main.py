@@ -1,4 +1,6 @@
+import persistence
 import time
+
 
 translations = {"name": "Nome",
                 "email": "Email",
@@ -22,15 +24,15 @@ def show_menu():
 def read_option():
     return int(input('\nOpção: '))
 
-def return_user_id(user_list, user_id):
+def return_user_id(users_list, user_id):
     
-    for user in user_list:
+    for user in users_list:
         if user_id == user['id']:
             return user
     
     return None
 
-def create_user(user_list, next_user_id):
+def create_user(users_list, next_user_id):
     user_name = input('Digite o nome do usuário: ')
     user_email = input('Digite o email do usuário: ')
     user_age = int(input('Digite a idade do usuário: '))
@@ -40,27 +42,27 @@ def create_user(user_list, next_user_id):
             'email': user_email,
             'age': user_age}
 
-    user_list.append(user)
+    users_list.append(user)
             
     print('Usuário cadastrado com sucesso.')
 
-def read_users(user_list):
-    if len(user_list) == 0:
+def read_users(users_list):
+    if len(users_list) == 0:
         print('Nenhum usuário encontrado.')
         return
 
-    for user in user_list:
+    for user in users_list:
         print(f"\nId: {user['id']}\nNome: {user['name']}\nEmail: {user['email']}\nIdade: {user['age']}\n\n")
 
-def update_user(user_list):
-    if len(user_list) == 0:
+def update_user(users_list):
+    if len(users_list) == 0:
         print('Nenhum usuário encontrado.')
         return
     
-    read_users(user_list)
+    read_users(users_list)
     user_id = int(input("\n\nSelecione o usuário pelo id: "))
     
-    user_to_update = return_user_id(user_list, user_id)
+    user_to_update = return_user_id(users_list, user_id)
         
     if user_to_update == None:
         print("Usuário não encontrado.")
@@ -82,26 +84,28 @@ def update_user(user_list):
                 user_to_update[attribute] = value
         
     
-def delete_user(user_list):
-    if len(user_list) == 0:
+def delete_user(users_list):
+    if len(users_list) == 0:
         print('Nenhum usuário encontrado.')
         return
 
-    read_users(user_list)
+    read_users(users_list)
     id_remover = int(input("\n\nSelecione o usuário pelo id: "))
     
-    user = return_user_id(user_list, id_remover)
+    user = return_user_id(users_list, id_remover)
 
     if user == None:
         print("Usuário não encontrado.")
         return
 
-    user_list.remove(user)
-    print(f"Usuário com id {user["id"]} deletado com sucesso.")
+    users_list.remove(user)
+    print(f"Usuário com id {user['id']} deletado com sucesso.")
 
 
 def main():
-    user_list = []
+    
+    users_list = persistence.load_data()
+    
     next_user_id = 1
     quit_program = False
 
@@ -117,6 +121,7 @@ def main():
         answer = read_option()
 
         if answer == 5:
+            persistence.save_data(users_list)
             quit_program = True
             continue
 
@@ -127,10 +132,10 @@ def main():
         action = actions[answer]
 
         if action == "create":
-            create_user(user_list, next_user_id)
+            create_user(users_list, next_user_id)
             next_user_id += 1
         else:
-            action(user_list)
+            action(users_list)
 
     print("\nPrograma finalizado.")
 
