@@ -7,7 +7,6 @@ translations = {"name": "Nome",
                 "age": "Idade"
 }
 
-
 def show_menu():
     print(
         """
@@ -21,8 +20,18 @@ def show_menu():
         ---------------------------------------------------------
         """)
 
+def secure_input(data_type, message):
+    while True:
+        try:
+            data = data_type(input(message))
+        except ValueError:
+            print("Dado inválido. Digite novamente.")
+            continue
+        else:
+            return data
+
 def read_option():
-    return int(input('\nOpção: '))
+    return secure_input(int, '\nOpção: ')
 
 def return_user_id(users_list, user_id):
     
@@ -33,10 +42,10 @@ def return_user_id(users_list, user_id):
     return None
 
 def create_user(users_list, next_user_id):
-    user_name = input('Digite o nome do usuário: ')
-    user_email = input('Digite o email do usuário: ')
-    user_age = int(input('Digite a idade do usuário: '))
-            
+    user_name = secure_input(str, 'Digite o nome do usuário: ')
+    user_email = secure_input(str, 'Digite o email do usuário: ')
+    user_age = secure_input(int, 'Digite a idade do usuário: ')
+
     user = {'id': next_user_id,
             'name': user_name, 
             'email': user_email,
@@ -60,7 +69,7 @@ def update_user(users_list):
         return
     
     read_users(users_list)
-    user_id = int(input("\n\nSelecione o usuário pelo id: "))
+    user_id = secure_input(int, "\n\nSelecione o usuário pelo id: ")
     
     user_to_update = return_user_id(users_list, user_id)
         
@@ -74,11 +83,10 @@ def update_user(users_list):
         
         else:
             print(f'\n\n{translations[attribute]} atual: {user_to_update[attribute]}')
+
+            data_type = type(user_to_update[attribute])
             
-            value = input("Digite um novo valor ou pressione ENTER para manter: ")
-            
-            if attribute == "age" and len(value) != 0:
-                value = int(value)
+            value = secure_input(data_type, "Digite um novo valor ou pressione ENTER para manter: ")
             
             if value != "":
                 user_to_update[attribute] = value
@@ -90,7 +98,7 @@ def delete_user(users_list):
         return
 
     read_users(users_list)
-    id_remover = int(input("\n\nSelecione o usuário pelo id: "))
+    id_remover = secure_input(int, "\n\nSelecione o usuário pelo id: ")
     
     user = return_user_id(users_list, id_remover)
 
